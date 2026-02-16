@@ -217,7 +217,6 @@ a:hover {
 .main-content {
   flex: 1;
   padding: 2rem;
-  max-width: 720px;
 }
 
 /* ── Concert Tracker: Header ── */
