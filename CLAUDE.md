@@ -23,12 +23,12 @@ CNAME               # GitHub Pages custom domain
 - API key is stored as a constant in js/concerts.js
 
 ### Artist Management
-- Users can search, add, and remove tracked artists via an "Edit Artists" panel
+- Persistent left sidebar with search input and tracked artist chips (always visible)
 - Search uses Ticketmaster `/discovery/v2/attractions` endpoint (debounced, 350ms)
-- Tracked artists are stored in **localStorage** (`concertTracker_artists` key)
+- Tracked artists stored in **localStorage** (`concertTracker_artists` key)
 - On first visit, localStorage is seeded with the 3 default artists
 - Adding/removing an artist auto-saves and re-fetches events immediately
-- UI: toggle panel with "Edit Artists" button, search input with dropdown results, artist chips with remove buttons
+- On mobile (<640px), sidebar stacks above the main content
 
 ## Deployment
 - Repo: https://github.com/stephenkrieger/skrieger.me
