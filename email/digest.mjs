@@ -63,13 +63,12 @@ function formatDate(dateStr) {
 function buildEmailHtml(userName, newEvents) {
   const eventRows = newEvents
     .map(
-      (e) => `
-    <tr>
-      <td style="padding:12px 16px;border-bottom:1px solid #2a2a2a;">
-        <div style="color:#7eb8da;font-weight:600;font-size:13px;">${formatDate(e.date)}</div>
-        <div style="color:#fff;font-size:15px;margin-top:2px;">${e.name}</div>
-        <div style="color:#888;font-size:13px;">${e.venue} &mdash; ${e.city}${e.state ? ", " + e.state : ""}</div>
-        ${e.url ? `<a href="${e.url}" style="color:#7eb8da;font-size:13px;font-weight:600;text-decoration:none;">Get Tickets &rarr;</a>` : ""}
+      (e) => `<tr>
+      <td style="padding:6px 16px;border-bottom:1px solid #2a2a2a;">
+        <span style="color:#7eb8da;font-size:12px;font-weight:600;">${formatDate(e.date)}</span>
+        <span style="color:#fff;font-size:13px;"> ${e.name}</span>
+        <span style="color:#666;font-size:12px;"> — ${e.venue}, ${e.city}${e.state ? " " + e.state : ""}</span>
+        ${e.url ? ` <a href="${e.url}" style="color:#7eb8da;font-size:12px;text-decoration:none;">[Tickets]</a>` : ""}
       </td>
     </tr>`
     )
@@ -80,20 +79,19 @@ function buildEmailHtml(userName, newEvents) {
 <html>
 <head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#0d0d0d;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0d0d0d;padding:32px 16px;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0d0d0d;padding:16px;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;">
         <tr>
-          <td style="padding:24px;border-bottom:1px solid #2a2a2a;">
-            <h1 style="margin:0;color:#fff;font-size:20px;">Concert Tracker</h1>
-            <p style="margin:4px 0 0;color:#888;font-size:14px;">Hey ${userName}, here are newly announced shows for your artists:</p>
+          <td style="padding:14px 16px;border-bottom:1px solid #2a2a2a;">
+            <span style="color:#fff;font-size:16px;font-weight:700;">Concert Tracker</span>
+            <span style="color:#888;font-size:13px;"> — Hey ${userName}, new shows for your artists:</span>
           </td>
         </tr>
         ${eventRows}
         <tr>
-          <td style="padding:16px 24px;color:#555;font-size:12px;">
-            You're receiving this because you opted in at <a href="https://skrieger.me/concerts/" style="color:#7eb8da;text-decoration:none;">skrieger.me/concerts</a>.
-            Sign in and uncheck "Weekly digest" to stop these emails.
+          <td style="padding:10px 16px;color:#555;font-size:11px;">
+            Opted in at <a href="https://skrieger.me/concerts/" style="color:#7eb8da;text-decoration:none;">skrieger.me/concerts</a>. Uncheck "Weekly digest" to stop.
           </td>
         </tr>
       </table>
