@@ -1,0 +1,192 @@
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #0d0d0d;
+  color: #e0e0e0;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: #7eb8da;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+/* ── Landing Page ── */
+.landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.landing h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 3rem;
+}
+
+.projects h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.projects ul {
+  list-style: none;
+}
+
+.projects li {
+  padding: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+/* ── Concert Tracker ── */
+header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.back-link:hover {
+  color: #7eb8da;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: #888;
+  margin-bottom: 0.25rem;
+}
+
+.artists-list {
+  color: #7eb8da;
+  font-size: 0.95rem;
+}
+
+/* ── Event Cards ── */
+.artist-section {
+  margin-bottom: 2.5rem;
+}
+
+.artist-section h2 {
+  font-size: 1.3rem;
+  color: #fff;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.event-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s;
+}
+
+.event-card:hover {
+  border-color: #7eb8da;
+}
+
+.event-date {
+  font-size: 0.85rem;
+  color: #7eb8da;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.event-venue {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.event-location {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.event-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── States ── */
+.loading {
+  color: #888;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.no-events {
+  color: #666;
+  font-style: italic;
+}
+
+.error-message {
+  color: #e06060;
+  background: #1a1a1a;
+  border: 1px solid #3a2020;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+/* ── Footer ── */
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #2a2a2a;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .landing h1 {
+    font-size: 2rem;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding: 2rem 1rem;
+  }
+}
