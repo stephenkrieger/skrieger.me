@@ -353,7 +353,11 @@ function updateSubtitle() {
 
 // ── Auth UI ──
 function setupAuth() {
-  if (!isFirebaseAvailable()) return;
+  if (!isFirebaseAvailable()) {
+    const overlay = document.getElementById("sidebar-overlay");
+    if (overlay) overlay.classList.add("hidden");
+    return;
+  }
 
   const signInBtn = document.getElementById("sign-in-btn");
   const signOutBtn = document.getElementById("sign-out-btn");
@@ -379,6 +383,8 @@ function setupAuth() {
     }
   });
 
+  const sidebarOverlay = document.getElementById("sidebar-overlay");
+
   auth.onAuthStateChanged(async (user) => {
     currentUser = user;
 
@@ -390,6 +396,7 @@ function setupAuth() {
       userAvatar.style.display = user.photoURL ? "block" : "none";
       userName.textContent = user.displayName || user.email;
       emailOptInWrapper.style.display = "block";
+      if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
 
       // Load prefs from Firestore
       const existed = await loadPrefsFromFirestore(user.uid);
@@ -416,6 +423,7 @@ function setupAuth() {
       userInfo.style.display = "none";
       emailOptInWrapper.style.display = "none";
       prefsCache = null;
+      if (sidebarOverlay) sidebarOverlay.classList.remove("hidden");
 
       // Revert to localStorage prefs
       applyPrefsToUI();

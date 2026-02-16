@@ -9,37 +9,43 @@
 <body>
   <div class="layout">
     <aside class="sidebar" id="sidebar">
-      <h2 class="sidebar-heading">Your Artists</h2>
-      <div class="artist-search-wrapper">
-        <input type="text" id="artist-search" class="artist-search" placeholder="Search to add...">
-        <div class="search-results" id="search-results"></div>
-      </div>
-      <p class="search-hint">Type to search Ticketmaster</p>
-      <hr class="sidebar-divider">
-      <h2 class="sidebar-heading">Tracking</h2>
-      <div class="tracked-artists" id="tracked-artists"></div>
-
-      <hr class="sidebar-divider">
-      <h2 class="sidebar-heading">Location</h2>
-      <div class="location-wrapper">
-        <input type="text" id="location-input" class="artist-search" placeholder="City, State">
-        <button id="location-set" class="location-set-btn">Set</button>
-      </div>
-      <p class="location-current" id="location-current"></p>
-
-      <hr class="sidebar-divider">
-      <h2 class="sidebar-heading">Distance</h2>
-      <div class="radius-wrapper">
-        <input type="range" id="radius-slider" min="25" max="300" step="25" value="150">
-        <span class="radius-value" id="radius-value">150 mi</span>
-      </div>
-
-      <div class="email-optin-wrapper" id="email-optin-wrapper" style="display:none;">
+      <div class="sidebar-controls" id="sidebar-controls">
+        <h2 class="sidebar-heading">Your Artists</h2>
+        <div class="artist-search-wrapper">
+          <input type="text" id="artist-search" class="artist-search" placeholder="Search to add...">
+          <div class="search-results" id="search-results"></div>
+        </div>
+        <p class="search-hint">Type to search Ticketmaster</p>
         <hr class="sidebar-divider">
-        <label class="email-optin-label">
-          <input type="checkbox" id="email-optin">
-          <span>Weekly digest of new shows</span>
-        </label>
+        <h2 class="sidebar-heading">Tracking</h2>
+        <div class="tracked-artists" id="tracked-artists"></div>
+
+        <hr class="sidebar-divider">
+        <h2 class="sidebar-heading">Location</h2>
+        <div class="location-wrapper">
+          <input type="text" id="location-input" class="artist-search" placeholder="City, State">
+          <button id="location-set" class="location-set-btn">Set</button>
+        </div>
+        <p class="location-current" id="location-current"></p>
+
+        <hr class="sidebar-divider">
+        <h2 class="sidebar-heading">Distance</h2>
+        <div class="radius-wrapper">
+          <input type="range" id="radius-slider" min="25" max="300" step="25" value="150">
+          <span class="radius-value" id="radius-value">150 mi</span>
+        </div>
+
+        <div class="email-optin-wrapper" id="email-optin-wrapper" style="display:none;">
+          <hr class="sidebar-divider">
+          <label class="email-optin-label">
+            <input type="checkbox" id="email-optin">
+            <span>Weekly digest of new shows</span>
+          </label>
+        </div>
+
+        <div class="sidebar-overlay" id="sidebar-overlay">
+          <p>Sign in to customize your artists, location, and distance</p>
+        </div>
       </div>
     </aside>
 

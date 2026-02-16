@@ -24,6 +24,8 @@ CNAME                              # GitHub Pages custom domain
 ```
 
 ## Concert Tracker
+The Concert Tracker is an attempt to very easily see favorite artists and upcoming concerts without having to subscribe to each individual artist's email distribution list. The app allows someone to authenticate, list their favorite artists, and then see if there are any upcoming shows within drivable distance (< 300 miles) from their selected location. Visitors also have the ability to receive a weekly email digest summarizing upcoming shows based on their search preferences.
+
 - Uses Ticketmaster Discovery API (client-side, free tier)
 - Shows upcoming events within 150 miles of Richmond, VA
 - Default artists: St. Lucia, Arcade Fire, The War on Drugs
@@ -31,7 +33,9 @@ CNAME                              # GitHub Pages custom domain
 
 ### Auth & Preference Sync
 - Google sign-in via Firebase Auth (header button, avatar + name when signed in)
-- Unauthenticated users still work fine with localStorage (graceful fallback)
+- Sidebar controls (artist search, tracking, location, distance) are blocked by a semi-transparent overlay until the user signs in
+- Default artist events still load in the main area so visitors can preview the app
+- If Firebase config is a placeholder, the overlay is hidden so localStorage dev flow still works
 - Signed-in users' prefs sync to Firestore (`users/{uid}` doc)
 - In-memory `prefsCache` populated from Firestore on sign-in
 - `save*` functions dual-write to localStorage AND Firestore when signed in
@@ -39,7 +43,7 @@ CNAME                              # GitHub Pages custom domain
 - Return sign-in loads Firestore prefs into cache + localStorage
 
 ### Artist Management
-- Persistent left sidebar (220px) with search input and tracked artist chips (always visible)
+- Persistent left sidebar (220px) with search input and tracked artist chips (visible but gated behind sign-in overlay)
 - Main content area fills remaining browser width (no max-width cap)
 - Search uses Ticketmaster `/discovery/v2/attractions` endpoint (debounced, 350ms)
 - Tracked artists stored in localStorage + Firestore (when signed in)

@@ -266,6 +266,36 @@ a:hover {
   white-space: nowrap;
 }
 
+/* ── Sidebar: Overlay (sign-in gate) ── */
+.sidebar-controls {
+  position: relative;
+  flex: 1;
+}
+
+.sidebar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  z-index: 5;
+  pointer-events: all;
+  border-radius: 6px;
+}
+
+.sidebar-overlay p {
+  color: #888;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.sidebar-overlay.hidden {
+  display: none;
+}
+
 /* ── Main Content ── */
 .main-content {
   flex: 1;
