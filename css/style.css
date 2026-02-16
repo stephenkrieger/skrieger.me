@@ -213,6 +213,59 @@ a:hover {
   color: #e06060;
 }
 
+/* ── Sidebar: Location ── */
+.location-wrapper {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.location-wrapper .artist-search {
+  flex: 1;
+}
+
+.location-set-btn {
+  background: #1e2a35;
+  border: 1px solid #2a3a4a;
+  color: #7eb8da;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.location-set-btn:hover {
+  background: #2a3a4a;
+}
+
+.location-current {
+  font-size: 0.75rem;
+  color: #888;
+  padding: 0 0.25rem;
+  min-height: 1.2em;
+}
+
+/* ── Sidebar: Radius Slider ── */
+.radius-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.radius-wrapper input[type="range"] {
+  flex: 1;
+  accent-color: #7eb8da;
+}
+
+.radius-value {
+  font-size: 0.85rem;
+  color: #7eb8da;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ── Main Content ── */
 .main-content {
   flex: 1;

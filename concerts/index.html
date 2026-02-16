@@ -18,13 +18,28 @@
       <hr class="sidebar-divider">
       <h2 class="sidebar-heading">Tracking</h2>
       <div class="tracked-artists" id="tracked-artists"></div>
+
+      <hr class="sidebar-divider">
+      <h2 class="sidebar-heading">Location</h2>
+      <div class="location-wrapper">
+        <input type="text" id="location-input" class="artist-search" placeholder="City, State">
+        <button id="location-set" class="location-set-btn">Set</button>
+      </div>
+      <p class="location-current" id="location-current"></p>
+
+      <hr class="sidebar-divider">
+      <h2 class="sidebar-heading">Distance</h2>
+      <div class="radius-wrapper">
+        <input type="range" id="radius-slider" min="25" max="300" step="25" value="150">
+        <span class="radius-value" id="radius-value">150 mi</span>
+      </div>
     </aside>
 
     <main class="main-content">
       <header>
         <a href="/" class="back-link">&larr; Home</a>
         <h1>Concert Tracker</h1>
-        <p class="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
+        <p class="subtitle" id="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
       </header>
 
       <div id="events">

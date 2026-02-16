@@ -8,10 +8,14 @@ const DEFAULT_ARTISTS = [
 ];
 
 const STORAGE_KEY = "concertTracker_artists";
+const LOCATION_KEY = "concertTracker_location";
+const RADIUS_KEY = "concertTracker_radius";
 
-// Richmond, VA coordinates
-const LATLONG = "37.5407,-77.4360";
-const RADIUS = 150;
+const DEFAULT_LOCATION = {
+  name: "Richmond, VA",
+  latlong: "37.5407,-77.4360",
+};
+const DEFAULT_RADIUS = 150;
 const RADIUS_UNIT = "miles";
 
 const TICKETMASTER_BASE = "https://app.ticketmaster.com/discovery/v2";
@@ -50,13 +54,63 @@ function removeArtist(keyword) {
   loadConcerts();
 }
 
+// ── Location & Radius Storage ──
+function getLocation() {
+  const stored = localStorage.getItem(LOCATION_KEY);
+  if (stored) return JSON.parse(stored);
+  localStorage.setItem(LOCATION_KEY, JSON.stringify(DEFAULT_LOCATION));
+  return DEFAULT_LOCATION;
+}
+
+function saveLocation(location) {
+  localStorage.setItem(LOCATION_KEY, JSON.stringify(location));
+}
+
+function getRadius() {
+  const stored = localStorage.getItem(RADIUS_KEY);
+  if (stored) return parseInt(stored, 10);
+  localStorage.setItem(RADIUS_KEY, DEFAULT_RADIUS);
+  return DEFAULT_RADIUS;
+}
+
+function saveRadius(radius) {
+  localStorage.setItem(RADIUS_KEY, radius);
+}
+
+// ── Geocode city name via OpenStreetMap Nominatim ──
+async function geocodeCity(cityName) {
+  const params = new URLSearchParams({
+    q: cityName,
+    format: "json",
+    limit: 1,
+    countrycodes: "us",
+  });
+
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?${params}`,
+    { headers: { "User-Agent": "skrieger.me-concert-tracker" } }
+  );
+
+  if (!response.ok) throw new Error("Geocoding failed");
+
+  const results = await response.json();
+  if (results.length === 0) throw new Error("City not found");
+
+  return {
+    name: results[0].display_name.split(",").slice(0, 2).join(",").trim(),
+    latlong: `${results[0].lat},${results[0].lon}`,
+  };
+}
+
 // ── Ticketmaster: Fetch events for a single artist ──
 async function fetchArtistEvents(artist) {
+  const location = getLocation();
+  const radius = getRadius();
   const params = new URLSearchParams({
     apikey: API_KEY,
     keyword: artist.keyword,
-    latlong: LATLONG,
-    radius: RADIUS,
+    latlong: location.latlong,
+    radius: radius,
     unit: RADIUS_UNIT,
     classificationName: "music",
     sort: "date,asc",
@@ -217,11 +271,21 @@ function renderSearchResults(results) {
   container.classList.add("visible");
 }
 
+// ── Update the subtitle with current location/radius ──
+function updateSubtitle() {
+  const subtitle = document.getElementById("subtitle");
+  if (!subtitle) return;
+  const location = getLocation();
+  const radius = getRadius();
+  subtitle.textContent = `Upcoming shows within ${radius} miles of ${location.name}`;
+}
+
 // ── Setup sidebar interactions ──
 function setupSidebar() {
   const searchInput = document.getElementById("artist-search");
   const resultsContainer = document.getElementById("search-results");
 
+  // Artist search
   const handleSearch = debounce(async (query) => {
     if (query.length < 2) {
       resultsContainer.classList.remove("visible");
@@ -235,14 +299,60 @@ function setupSidebar() {
     handleSearch(e.target.value.trim());
   });
 
-  // Close dropdown when clicking outside
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".artist-search-wrapper")) {
       resultsContainer.classList.remove("visible");
     }
   });
 
+  // Location
+  const locationInput = document.getElementById("location-input");
+  const locationSetBtn = document.getElementById("location-set");
+  const locationCurrent = document.getElementById("location-current");
+  const location = getLocation();
+  locationInput.value = location.name;
+  locationCurrent.textContent = "";
+
+  async function setLocation() {
+    const city = locationInput.value.trim();
+    if (!city) return;
+    locationCurrent.textContent = "Looking up...";
+    try {
+      const loc = await geocodeCity(city);
+      saveLocation(loc);
+      locationInput.value = loc.name;
+      locationCurrent.textContent = "";
+      updateSubtitle();
+      loadConcerts();
+    } catch (err) {
+      locationCurrent.textContent = "City not found. Try again.";
+    }
+  }
+
+  locationSetBtn.addEventListener("click", setLocation);
+  locationInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") setLocation();
+  });
+
+  // Radius slider
+  const radiusSlider = document.getElementById("radius-slider");
+  const radiusValue = document.getElementById("radius-value");
+  const currentRadius = getRadius();
+  radiusSlider.value = currentRadius;
+  radiusValue.textContent = `${currentRadius} mi`;
+
+  radiusSlider.addEventListener("input", (e) => {
+    radiusValue.textContent = `${e.target.value} mi`;
+  });
+
+  radiusSlider.addEventListener("change", (e) => {
+    saveRadius(parseInt(e.target.value, 10));
+    updateSubtitle();
+    loadConcerts();
+  });
+
   renderTrackedArtists();
+  updateSubtitle();
 }
 
 // ── Main: load and render concerts ──

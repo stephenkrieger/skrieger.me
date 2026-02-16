@@ -31,6 +31,13 @@ CNAME               # GitHub Pages custom domain
 - Adding/removing an artist auto-saves and re-fetches events immediately
 - On mobile (<640px), sidebar stacks above the main content
 
+### Location & Distance
+- Configurable location via city name input in the sidebar (default: Richmond, VA)
+- Geocoding via OpenStreetMap Nominatim API (free, no key needed)
+- Distance slider (25–300 miles, default 150)
+- Both persist in localStorage (`concertTracker_location`, `concertTracker_radius`)
+- Subtitle updates dynamically to reflect current location and radius
+
 ## Deployment
 - Repo: https://github.com/stephenkrieger/skrieger.me
 - Push to `main` triggers GitHub Pages rebuild
