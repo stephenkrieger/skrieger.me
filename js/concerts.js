@@ -20,8 +20,70 @@ const RADIUS_UNIT = "miles";
 
 const TICKETMASTER_BASE = "https://app.ticketmaster.com/discovery/v2";
 
+// ── Auth State ──
+let currentUser = null;
+
+// ── In-memory prefs cache (populated from Firestore or localStorage) ──
+let prefsCache = null;
+
+// ── Firebase helpers ──
+function isFirebaseAvailable() {
+  return typeof firebase !== "undefined" && firebase.apps.length > 0 &&
+    firebaseConfig.apiKey !== "YOUR_FIREBASE_API_KEY";
+}
+
+function getUserDocRef(uid) {
+  return db.collection("users").doc(uid);
+}
+
+// ── Load prefs from Firestore into cache + localStorage ──
+async function loadPrefsFromFirestore(uid) {
+  const doc = await getUserDocRef(uid).get();
+  if (doc.exists) {
+    const data = doc.data();
+    prefsCache = {
+      artists: data.artists || DEFAULT_ARTISTS,
+      location: data.location || DEFAULT_LOCATION,
+      radius: data.radius != null ? data.radius : DEFAULT_RADIUS,
+      emailOptIn: data.emailOptIn || false,
+    };
+    // Sync back to localStorage for offline use
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefsCache.artists));
+    localStorage.setItem(LOCATION_KEY, JSON.stringify(prefsCache.location));
+    localStorage.setItem(RADIUS_KEY, prefsCache.radius);
+    return true; // doc existed
+  }
+  return false; // first sign-in, no doc yet
+}
+
+// ── Save full prefs to Firestore ──
+async function savePrefsToFirestore() {
+  if (!currentUser) return;
+  const data = {
+    artists: getArtists(),
+    location: getLocation(),
+    radius: getRadius(),
+    email: currentUser.email,
+    displayName: currentUser.displayName || "",
+    emailOptIn: prefsCache ? prefsCache.emailOptIn : false,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  await getUserDocRef(currentUser.uid).set(data, { merge: true });
+}
+
+// ── Save a single field to Firestore ──
+async function saveFieldToFirestore(field, value) {
+  if (!currentUser) return;
+  const update = {
+    [field]: value,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  await getUserDocRef(currentUser.uid).set(update, { merge: true });
+}
+
 // ── Artist Storage ──
 function getArtists() {
+  if (prefsCache) return prefsCache.artists;
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     return JSON.parse(stored);
@@ -32,6 +94,8 @@ function getArtists() {
 
 function saveArtists(artists) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(artists));
+  if (prefsCache) prefsCache.artists = artists;
+  if (currentUser) saveFieldToFirestore("artists", artists);
 }
 
 function addArtist(name, keyword) {
@@ -56,6 +120,7 @@ function removeArtist(keyword) {
 
 // ── Location & Radius Storage ──
 function getLocation() {
+  if (prefsCache) return prefsCache.location;
   const stored = localStorage.getItem(LOCATION_KEY);
   if (stored) return JSON.parse(stored);
   localStorage.setItem(LOCATION_KEY, JSON.stringify(DEFAULT_LOCATION));
@@ -64,9 +129,12 @@ function getLocation() {
 
 function saveLocation(location) {
   localStorage.setItem(LOCATION_KEY, JSON.stringify(location));
+  if (prefsCache) prefsCache.location = location;
+  if (currentUser) saveFieldToFirestore("location", location);
 }
 
 function getRadius() {
+  if (prefsCache) return prefsCache.radius;
   const stored = localStorage.getItem(RADIUS_KEY);
   if (stored) return parseInt(stored, 10);
   localStorage.setItem(RADIUS_KEY, DEFAULT_RADIUS);
@@ -75,6 +143,8 @@ function getRadius() {
 
 function saveRadius(radius) {
   localStorage.setItem(RADIUS_KEY, radius);
+  if (prefsCache) prefsCache.radius = radius;
+  if (currentUser) saveFieldToFirestore("radius", radius);
 }
 
 // ── Geocode city name via OpenStreetMap Nominatim ──
@@ -127,6 +197,7 @@ async function fetchArtistEvents(artist) {
   const events = data._embedded?.events || [];
 
   return events.map((event) => ({
+    id: event.id,
     name: event.name,
     date: event.dates?.start?.localDate || "TBD",
     time: event.dates?.start?.localTime || null,
@@ -280,6 +351,95 @@ function updateSubtitle() {
   subtitle.textContent = `Upcoming shows within ${radius} miles of ${location.name}`;
 }
 
+// ── Auth UI ──
+function setupAuth() {
+  if (!isFirebaseAvailable()) return;
+
+  const signInBtn = document.getElementById("sign-in-btn");
+  const signOutBtn = document.getElementById("sign-out-btn");
+  const userInfo = document.getElementById("user-info");
+  const userAvatar = document.getElementById("user-avatar");
+  const userName = document.getElementById("user-name");
+  const emailOptInWrapper = document.getElementById("email-optin-wrapper");
+  const emailOptIn = document.getElementById("email-optin");
+
+  signInBtn.addEventListener("click", () => {
+    auth.signInWithPopup(googleProvider);
+  });
+
+  signOutBtn.addEventListener("click", () => {
+    auth.signOut();
+  });
+
+  emailOptIn.addEventListener("change", (e) => {
+    if (prefsCache) prefsCache.emailOptIn = e.target.checked;
+    if (currentUser) {
+      saveFieldToFirestore("emailOptIn", e.target.checked);
+      saveFieldToFirestore("email", currentUser.email);
+    }
+  });
+
+  auth.onAuthStateChanged(async (user) => {
+    currentUser = user;
+
+    if (user) {
+      // Show user info, hide sign-in button
+      signInBtn.style.display = "none";
+      userInfo.style.display = "flex";
+      userAvatar.src = user.photoURL || "";
+      userAvatar.style.display = user.photoURL ? "block" : "none";
+      userName.textContent = user.displayName || user.email;
+      emailOptInWrapper.style.display = "block";
+
+      // Load prefs from Firestore
+      const existed = await loadPrefsFromFirestore(user.uid);
+
+      if (!existed) {
+        // First sign-in: migrate localStorage prefs up to Firestore
+        prefsCache = {
+          artists: getArtists(),
+          location: getLocation(),
+          radius: getRadius(),
+          emailOptIn: false,
+        };
+        await savePrefsToFirestore();
+      }
+
+      // Update UI with loaded prefs
+      emailOptIn.checked = prefsCache.emailOptIn;
+      applyPrefsToUI();
+      renderTrackedArtists();
+      loadConcerts();
+    } else {
+      // Signed out
+      signInBtn.style.display = "inline-flex";
+      userInfo.style.display = "none";
+      emailOptInWrapper.style.display = "none";
+      prefsCache = null;
+
+      // Revert to localStorage prefs
+      applyPrefsToUI();
+      renderTrackedArtists();
+      loadConcerts();
+    }
+  });
+}
+
+// ── Apply current prefs (from cache or localStorage) to sidebar UI ──
+function applyPrefsToUI() {
+  const locationInput = document.getElementById("location-input");
+  const radiusSlider = document.getElementById("radius-slider");
+  const radiusValue = document.getElementById("radius-value");
+
+  const location = getLocation();
+  const radius = getRadius();
+
+  locationInput.value = location.name;
+  radiusSlider.value = radius;
+  radiusValue.textContent = `${radius} mi`;
+  updateSubtitle();
+}
+
 // ── Setup sidebar interactions ──
 function setupSidebar() {
   const searchInput = document.getElementById("artist-search");
@@ -411,4 +571,5 @@ async function loadConcerts() {
 
 // ── Init ──
 setupSidebar();
+setupAuth();
 loadConcerts();

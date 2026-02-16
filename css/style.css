@@ -277,15 +277,88 @@ header {
   margin-bottom: 2rem;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .back-link {
   display: inline-block;
   font-size: 0.9rem;
   color: #888;
-  margin-bottom: 1rem;
 }
 
 .back-link:hover {
   color: #7eb8da;
+}
+
+/* ── Auth ── */
+.auth-container {
+  display: flex;
+  align-items: center;
+}
+
+.auth-btn {
+  background: #1e2a35;
+  border: 1px solid #2a3a4a;
+  color: #7eb8da;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.auth-btn:hover {
+  background: #2a3a4a;
+}
+
+.auth-btn-small {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 0.8rem;
+  color: #ccc;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Email Opt-In ── */
+.email-optin-wrapper {
+  padding: 0 0.25rem;
+}
+
+.email-optin-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.email-optin-label input[type="checkbox"] {
+  accent-color: #7eb8da;
 }
 
 header h1 {

@@ -33,11 +33,29 @@
         <input type="range" id="radius-slider" min="25" max="300" step="25" value="150">
         <span class="radius-value" id="radius-value">150 mi</span>
       </div>
+
+      <div class="email-optin-wrapper" id="email-optin-wrapper" style="display:none;">
+        <hr class="sidebar-divider">
+        <label class="email-optin-label">
+          <input type="checkbox" id="email-optin">
+          <span>Weekly digest of new shows</span>
+        </label>
+      </div>
     </aside>
 
     <main class="main-content">
       <header>
-        <a href="/" class="back-link">&larr; Home</a>
+        <div class="header-row">
+          <a href="/" class="back-link">&larr; Home</a>
+          <div class="auth-container" id="auth-container">
+            <button class="auth-btn" id="sign-in-btn">Sign in with Google</button>
+            <div class="user-info" id="user-info" style="display:none;">
+              <img class="user-avatar" id="user-avatar" alt="Avatar">
+              <span class="user-name" id="user-name"></span>
+              <button class="auth-btn auth-btn-small" id="sign-out-btn">Sign out</button>
+            </div>
+          </div>
+        </div>
         <h1>Concert Tracker</h1>
         <p class="subtitle" id="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
       </header>
@@ -52,6 +70,11 @@
     </main>
   </div>
 
+  <!-- Firebase compat SDKs (free, no build tools needed) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="/js/firebase-config.js"></script>
   <script src="/js/concerts.js"></script>
 </body>
 </html>
