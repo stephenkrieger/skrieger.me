@@ -387,10 +387,19 @@ function setupAuth() {
 
   if (sidebarOverlay) {
     sidebarOverlay.addEventListener("click", () => {
-      auth.signInWithPopup(googleProvider);
+      document.getElementById("signin-modal").classList.remove("hidden");
     });
     sidebarOverlay.style.cursor = "pointer";
   }
+
+  document.getElementById("signin-modal-yes").addEventListener("click", () => {
+    document.getElementById("signin-modal").classList.add("hidden");
+    auth.signInWithPopup(googleProvider);
+  });
+
+  document.getElementById("signin-modal-no").addEventListener("click", () => {
+    document.getElementById("signin-modal").classList.add("hidden");
+  });
 
   auth.onAuthStateChanged(async (user) => {
     currentUser = user;

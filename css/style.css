@@ -296,6 +296,70 @@ a:hover {
   display: none;
 }
 
+/* ── Sign-in Modal ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-backdrop.hidden {
+  display: none;
+}
+
+.modal {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 1.75rem;
+  max-width: 360px;
+  text-align: center;
+}
+
+.modal p {
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-btn-primary {
+  background: #1e2a35;
+  border: 1px solid #2a3a4a;
+  color: #7eb8da;
+}
+
+.modal-btn-primary:hover {
+  background: #2a3a4a;
+}
+
+.modal-btn-secondary {
+  background: transparent;
+  color: #666;
+}
+
+.modal-btn-secondary:hover {
+  color: #888;
+}
+
 /* ── Main Content ── */
 .main-content {
   flex: 1;

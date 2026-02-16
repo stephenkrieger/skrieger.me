@@ -76,6 +76,17 @@
     </main>
   </div>
 
+  <!-- Sign-in modal -->
+  <div class="modal-backdrop hidden" id="signin-modal">
+    <div class="modal">
+      <p>You need to sign in to customize your search. Would you like to sign in now?</p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-primary" id="signin-modal-yes">Sign in with Google</button>
+        <button class="modal-btn modal-btn-secondary" id="signin-modal-no">Not now</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase compat SDKs (free, no build tools needed) -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
