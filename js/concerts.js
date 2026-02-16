@@ -37,7 +37,6 @@ function addArtist(name, keyword) {
   }
   artists.push({ name, keyword });
   saveArtists(artists);
-  updateArtistsListText();
   renderTrackedArtists();
   loadConcerts();
 }
@@ -47,7 +46,6 @@ function removeArtist(keyword) {
     (a) => a.keyword.toLowerCase() !== keyword.toLowerCase()
   );
   saveArtists(artists);
-  updateArtistsListText();
   renderTrackedArtists();
   loadConcerts();
 }
@@ -164,13 +162,6 @@ function renderArtistSection(artist, events) {
   return section;
 }
 
-// ── Update the header artist list text ──
-function updateArtistsListText() {
-  const el = document.getElementById("artists-list");
-  const artists = getArtists();
-  el.textContent = artists.map((a) => a.name).join(" \u00B7 ") || "No artists tracked";
-}
-
 // ── Render tracked artist chips ──
 function renderTrackedArtists() {
   const container = document.getElementById("tracked-artists");
@@ -226,17 +217,10 @@ function renderSearchResults(results) {
   container.classList.add("visible");
 }
 
-// ── Setup artist panel interactions ──
-function setupArtistPanel() {
-  const btn = document.getElementById("edit-artists-btn");
-  const panel = document.getElementById("artist-panel");
+// ── Setup sidebar interactions ──
+function setupSidebar() {
   const searchInput = document.getElementById("artist-search");
   const resultsContainer = document.getElementById("search-results");
-
-  btn.addEventListener("click", () => {
-    panel.classList.toggle("open");
-    btn.textContent = panel.classList.contains("open") ? "Done" : "Edit Artists";
-  });
 
   const handleSearch = debounce(async (query) => {
     if (query.length < 2) {
@@ -258,7 +242,6 @@ function setupArtistPanel() {
     }
   });
 
-  updateArtistsListText();
   renderTrackedArtists();
 }
 
@@ -280,7 +263,7 @@ async function loadConcerts() {
   const artists = getArtists();
 
   if (artists.length === 0) {
-    container.innerHTML = '<div class="no-events">No artists tracked. Click "Edit Artists" to add some.</div>';
+    container.innerHTML = '<div class="no-events">No artists tracked. Search for artists in the sidebar to get started.</div>';
     return;
   }
 
@@ -317,5 +300,5 @@ async function loadConcerts() {
 }
 
 // ── Init ──
-setupArtistPanel();
+setupSidebar();
 loadConcerts();

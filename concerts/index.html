@@ -7,32 +7,34 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a href="/" class="back-link">&larr; Home</a>
-      <h1>Concert Tracker</h1>
-      <p class="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
-      <div class="artists-header">
-        <p class="artists-list" id="artists-list"></p>
-        <button class="edit-artists-btn" id="edit-artists-btn">Edit Artists</button>
-      </div>
-    </header>
-
-    <div class="artist-panel" id="artist-panel">
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="sidebar-heading">Your Artists</h2>
       <div class="artist-search-wrapper">
-        <input type="text" id="artist-search" class="artist-search" placeholder="Search for an artist...">
+        <input type="text" id="artist-search" class="artist-search" placeholder="Search to add...">
         <div class="search-results" id="search-results"></div>
       </div>
+      <p class="search-hint">Type to search Ticketmaster</p>
+      <hr class="sidebar-divider">
+      <h2 class="sidebar-heading">Tracking</h2>
       <div class="tracked-artists" id="tracked-artists"></div>
-    </div>
+    </aside>
 
-    <div id="events">
-      <div class="loading">Loading upcoming events&hellip;</div>
-    </div>
+    <main class="main-content">
+      <header>
+        <a href="/" class="back-link">&larr; Home</a>
+        <h1>Concert Tracker</h1>
+        <p class="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
+      </header>
 
-    <footer>
-      <p>Powered by the <a href="https://developer.ticketmaster.com/" target="_blank" rel="noopener">Ticketmaster API</a></p>
-    </footer>
+      <div id="events">
+        <div class="loading">Loading upcoming events&hellip;</div>
+      </div>
+
+      <footer>
+        <p>Powered by the <a href="https://developer.ticketmaster.com/" target="_blank" rel="noopener">Ticketmaster API</a></p>
+      </footer>
+    </main>
   </div>
 
   <script src="/js/concerts.js"></script>
