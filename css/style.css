@@ -275,20 +275,20 @@ a:hover {
 .sidebar-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(17, 17, 17, 0.85);
+  background: #111;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem;
   z-index: 5;
   pointer-events: all;
   border-radius: 6px;
 }
 
 .sidebar-overlay p {
-  color: #888;
-  font-size: 0.85rem;
+  color: #7eb8da;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
