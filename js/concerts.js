@@ -1,6 +1,6 @@
 // ── Configuration ──
 // Replace with your Ticketmaster API key from https://developer.ticketmaster.com/
-const API_KEY = "YOUR_API_KEY_HERE";
+const API_KEY = "ITPPjNZjJ7cpmAnAVhJG3XEcPZnMOpDJ";
 
 const ARTISTS = [
   { name: "St. Lucia", keyword: "St. Lucia" },
