@@ -411,7 +411,6 @@ function setupAuth() {
       userAvatar.src = user.photoURL || "";
       userAvatar.style.display = user.photoURL ? "block" : "none";
       userName.textContent = user.displayName || user.email;
-      emailOptInWrapper.style.display = "block";
       if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
 
       // Load prefs from Firestore
@@ -437,7 +436,6 @@ function setupAuth() {
       // Signed out
       signInBtn.style.display = "inline-flex";
       userInfo.style.display = "none";
-      emailOptInWrapper.style.display = "none";
       prefsCache = null;
       if (sidebarOverlay) sidebarOverlay.classList.remove("hidden");
 

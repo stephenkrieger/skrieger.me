@@ -33,7 +33,7 @@ The Concert Tracker is an attempt to very easily see favorite artists and upcomi
 
 ### Auth & Preference Sync
 - Google sign-in via Firebase Auth (header button, avatar + name when signed in)
-- Sidebar controls (artist search, tracking, location, distance) are blocked by an overlay until the user signs in
+- Sidebar controls (artist search, tracking, location, distance, email opt-in) are visible but blocked by a semi-transparent blurred overlay until the user signs in
 - Clicking the overlay opens a modal prompting the user to sign in with Google or dismiss
 - Default artist events still load in the main area so visitors can preview the app
 - If Firebase config is a placeholder, the overlay is hidden so localStorage dev flow still works
