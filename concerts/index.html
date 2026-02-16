@@ -12,8 +12,19 @@
       <a href="/" class="back-link">&larr; Home</a>
       <h1>Concert Tracker</h1>
       <p class="subtitle">Upcoming shows within 150 miles of Richmond, VA</p>
-      <p class="artists-list">St. Lucia &middot; Arcade Fire &middot; The War on Drugs</p>
+      <div class="artists-header">
+        <p class="artists-list" id="artists-list"></p>
+        <button class="edit-artists-btn" id="edit-artists-btn">Edit Artists</button>
+      </div>
     </header>
+
+    <div class="artist-panel" id="artist-panel">
+      <div class="artist-search-wrapper">
+        <input type="text" id="artist-search" class="artist-search" placeholder="Search for an artist...">
+        <div class="search-results" id="search-results"></div>
+      </div>
+      <div class="tracked-artists" id="tracked-artists"></div>
+    </div>
 
     <div id="events">
       <div class="loading">Loading upcoming events&hellip;</div>
