@@ -385,6 +385,13 @@ function setupAuth() {
 
   const sidebarOverlay = document.getElementById("sidebar-overlay");
 
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+      auth.signInWithPopup(googleProvider);
+    });
+    sidebarOverlay.style.cursor = "pointer";
+  }
+
   auth.onAuthStateChanged(async (user) => {
     currentUser = user;
 
