@@ -56,6 +56,7 @@ The Concert Tracker is an attempt to very easily see favorite artists and upcomi
 - Drawer auto-closes on sign-in so it doesn't block the main content
 - All interactive elements meet 44px minimum touch target on mobile
 - Sign-in modal has 1rem margin to prevent overflow on narrow (320px) screens
+- Header row (← Home + auth button) is sticky at the top on mobile for always-accessible navigation
 
 ### Location & Distance
 - Configurable location via city name input in the sidebar (default: Richmond, VA)
