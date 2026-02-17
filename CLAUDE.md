@@ -57,6 +57,8 @@ Simple, no-frills way to select which of your favorite bands are playing near yo
 - All interactive elements meet 44px minimum touch target on mobile
 - Sign-in modal has 1rem margin to prevent overflow on narrow (320px) screens
 - Header row (← Home + auth button) is sticky at the top on mobile for always-accessible navigation
+- "View Shows" button at bottom of drawer closes it and scrolls to results
+- Toast notifications confirm actions (add/remove artist, location change, distance change) — appear briefly then fade
 
 ### Location & Distance
 - Configurable location via city name input in the sidebar (default: Richmond, VA)
