@@ -412,6 +412,7 @@ function setupAuth() {
       userAvatar.style.display = user.photoURL ? "block" : "none";
       userName.textContent = user.displayName || user.email;
       if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
+      closeMobileSidebar();
 
       // Load prefs from Firestore
       const existed = await loadPrefsFromFirestore(user.uid);
@@ -591,7 +592,35 @@ async function loadConcerts() {
   }
 }
 
+// ── Mobile Sidebar Toggle ──
+function setupSidebarToggle() {
+  const toggle = document.getElementById("sidebar-toggle");
+  const sidebar = document.getElementById("sidebar");
+  if (!toggle || !sidebar) return;
+
+  toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    toggle.classList.toggle("active");
+  });
+
+  // Close sidebar when tapping the backdrop (the ::before pseudo-element)
+  sidebar.addEventListener("click", (e) => {
+    if (e.target === sidebar) {
+      sidebar.classList.remove("open");
+      toggle.classList.remove("active");
+    }
+  });
+}
+
+function closeMobileSidebar() {
+  const toggle = document.getElementById("sidebar-toggle");
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) sidebar.classList.remove("open");
+  if (toggle) toggle.classList.remove("active");
+}
+
 // ── Init ──
 setupSidebar();
+setupSidebarToggle();
 setupAuth();
 loadConcerts();

@@ -50,7 +50,12 @@ The Concert Tracker is an attempt to very easily see favorite artists and upcomi
 - Tracked artists stored in localStorage + Firestore (when signed in)
 - On first visit, localStorage is seeded with the 3 default artists
 - Adding/removing an artist auto-saves and re-fetches events immediately
-- On mobile (<640px), sidebar stacks above the main content
+- On mobile (≤640px), sidebar becomes a bottom-sheet drawer (fixed bottom, max-height 70vh, rounded top corners)
+- Floating action button (52px circle, bottom-right) toggles the drawer open/closed
+- Backdrop overlay dims background when drawer is open; tapping it dismisses the drawer
+- Drawer auto-closes on sign-in so it doesn't block the main content
+- All interactive elements meet 44px minimum touch target on mobile
+- Sign-in modal has 1rem margin to prevent overflow on narrow (320px) screens
 
 ### Location & Distance
 - Configurable location via city name input in the sidebar (default: Richmond, VA)
