@@ -544,6 +544,34 @@ footer {
   color: #666;
 }
 
+/* ── Toast Notification ── */
+.toast {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  background: #1e2a35;
+  border: 1px solid #2a3a4a;
+  color: #7eb8da;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── View Shows Button (hidden on desktop) ── */
+.view-shows-btn {
+  display: none;
+}
+
 /* ── Sidebar Toggle Button (hidden on desktop) ── */
 .sidebar-toggle {
   display: none;
@@ -629,6 +657,26 @@ footer {
 
   .sidebar-toggle.active .toggle-icon-close {
     display: block;
+  }
+
+  /* ── View Shows Button ── */
+  .view-shows-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    background: #1e2a35;
+    border: 1px solid #2a3a4a;
+    color: #7eb8da;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .view-shows-btn:hover {
+    background: #2a3a4a;
   }
 
   /* ── Touch Target Fixes ── */

@@ -107,15 +107,20 @@ function addArtist(name, keyword) {
   saveArtists(artists);
   renderTrackedArtists();
   loadConcerts();
+  showToast(`Added ${name}`);
 }
 
 function removeArtist(keyword) {
+  const removed = getArtists().find(
+    (a) => a.keyword.toLowerCase() === keyword.toLowerCase()
+  );
   const artists = getArtists().filter(
     (a) => a.keyword.toLowerCase() !== keyword.toLowerCase()
   );
   saveArtists(artists);
   renderTrackedArtists();
   loadConcerts();
+  if (removed) showToast(`Removed ${removed.name}`);
 }
 
 // ── Location & Radius Storage ──
@@ -507,6 +512,7 @@ function setupSidebar() {
       locationCurrent.textContent = "";
       updateSubtitle();
       loadConcerts();
+      showToast(`Location set to ${loc.name}`);
     } catch (err) {
       locationCurrent.textContent = "City not found. Try again.";
     }
@@ -529,9 +535,11 @@ function setupSidebar() {
   });
 
   radiusSlider.addEventListener("change", (e) => {
-    saveRadius(parseInt(e.target.value, 10));
+    const val = parseInt(e.target.value, 10);
+    saveRadius(val);
     updateSubtitle();
     loadConcerts();
+    showToast(`Distance set to ${val} miles`);
   });
 
   renderTrackedArtists();
@@ -592,6 +600,26 @@ async function loadConcerts() {
   }
 }
 
+// ── Toast Notification ──
+function showToast(message) {
+  const existing = document.querySelector(".toast");
+  if (existing) existing.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  // Trigger reflow then add visible class for animation
+  toast.offsetHeight;
+  toast.classList.add("visible");
+
+  setTimeout(() => {
+    toast.classList.remove("visible");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
 // ── Mobile Sidebar Toggle ──
 function setupSidebarToggle() {
   const toggle = document.getElementById("sidebar-toggle");
@@ -610,6 +638,15 @@ function setupSidebarToggle() {
       toggle.classList.remove("active");
     }
   });
+
+  // "View Shows" button closes drawer and scrolls to results
+  const viewShowsBtn = document.getElementById("view-shows-btn");
+  if (viewShowsBtn) {
+    viewShowsBtn.addEventListener("click", () => {
+      closeMobileSidebar();
+      document.getElementById("events").scrollIntoView({ behavior: "smooth" });
+    });
+  }
 }
 
 function closeMobileSidebar() {
