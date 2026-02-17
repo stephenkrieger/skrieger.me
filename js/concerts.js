@@ -348,7 +348,7 @@ function updateSubtitle() {
   if (!subtitle) return;
   const location = getLocation();
   const radius = getRadius();
-  subtitle.textContent = `Upcoming shows within ${radius} miles of ${location.name}`;
+  subtitle.textContent = `Currently viewing all concerts within ${radius} miles of ${location.name}`;
 }
 
 // ── Auth UI ──
