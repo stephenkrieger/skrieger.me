@@ -24,10 +24,10 @@ CNAME                              # GitHub Pages custom domain
 ```
 
 ## Concert Tracker
-The Concert Tracker is an attempt to very easily see favorite artists and upcoming concerts without having to subscribe to each individual artist's email distribution list. The app allows someone to authenticate, list their favorite artists, and then see if there are any upcoming shows within drivable distance (< 300 miles) from their selected location. Visitors also have the ability to receive a weekly email digest summarizing upcoming shows based on their search preferences.
+Simple, no-frills way to select which of your favorite bands are playing near you, without having to sign up for 50 newsletters. The app allows someone to authenticate, list their favorite artists, and then see if there are any upcoming shows within drivable distance (< 300 miles) from their selected location. Visitors also have the ability to receive a weekly email digest summarizing upcoming shows based on their search preferences.
 
 - Uses Ticketmaster Discovery API (client-side, free tier)
-- Shows upcoming events within 150 miles of Richmond, VA
+- Shows upcoming events within configurable radius of user's location (default: 150 miles, Richmond, VA)
 - Default artists: St. Lucia, Arcade Fire, The War on Drugs
 - Ticketmaster API key is stored as a constant in js/concerts.js
 
@@ -63,7 +63,7 @@ The Concert Tracker is an attempt to very easily see favorite artists and upcomi
 - Geocoding via OpenStreetMap Nominatim API (free, no key needed)
 - Distance slider (25–300 miles, default 150)
 - Both persist in localStorage + Firestore (when signed in)
-- Subtitle updates dynamically to reflect current location and radius
+- Static tagline above dynamic subtitle; dynamic line reads "Currently viewing all shows within [radius] miles of [location]"
 
 ### Weekly Email Digest
 - Sidebar checkbox "Weekly digest of new shows" (only visible when signed in)
