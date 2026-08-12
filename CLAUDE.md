@@ -23,6 +23,18 @@ email/digest.mjs                   # Weekly digest: Firestore → Ticketmaster �
 CNAME                              # GitHub Pages custom domain
 ```
 
+## Landing page
+
+`index.html` lists projects. Two of them live in **separate private repos** and
+are only linked from here — do not try to build or host them in this repo:
+
+- **HSA Expense Tracker** → https://hsa.skrieger.me
+  (repo `stephenkrieger/HSA-Emergency-Fund-Tracker`)
+- **Health Console** → https://health.skrieger.me — private dashboard, Google
+  sign-in restricted to the owner (repo `stephenkrieger/health-console`)
+
+**This repo is public.** Never add personal health or financial values to it.
+
 ## Concert Tracker
 Simple, no-frills way to select which of your favorite bands are playing near you, without having to sign up for 50 newsletters. The app allows someone to authenticate, list their favorite artists, and then see if there are any upcoming shows within drivable distance (< 300 miles) from their selected location. Visitors also have the ability to receive a weekly email digest summarizing upcoming shows based on their search preferences.
 
